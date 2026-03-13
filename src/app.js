@@ -10,8 +10,15 @@ import mongoSanitize from 'express-mongo-sanitize';
 const app = express();
 
 // Security Middlewares
-app.use(helmet()); // Basic security headers
+app.use(helmet({
+  contentSecurityPolicy: false,
+})); // Basic security headers with CSP disabled to avoid console errors
 app.use(mongoSanitize()); // Prevent NoSQL injection
+
+// Basic root route to avoid 404
+app.get('/', (req, res) => {
+  res.send('<h1>Backend corriendo exitosamente</h1><p>Por favor, usa el frontend en <a href="http://localhost:5173">http://localhost:5173</a></p>');
+});
 app.use(morgan('dev'))
 app.use(express.json())
 app.use(cookieParser())

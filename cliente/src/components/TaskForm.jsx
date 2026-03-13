@@ -1,10 +1,10 @@
 import React from 'react';
 
-export default function TaskForm({ title, setTitle, description, setDescription, editingId, onSubmit, onCancel }) {
+export default function TaskForm({ title, setTitle, description, setDescription, onSubmit }) {
   return (
     <form onSubmit={onSubmit} className="contenedor max-w-none! m-0! mt-0! mb-12 transform-none hover:transform-none">
       <div className="form-header text-left">
-        <h2 className="text-2xl! text-left!">{editingId ? 'Refinar Tarea' : 'Crear Nueva Tarea'}</h2>
+        <h2 className="text-2xl! text-left!">Crear Nueva Tarea</h2>
         <p className="subtitle text-left!">Define los detalles de tu próximo objetivo</p>
       </div>
 
@@ -32,18 +32,8 @@ export default function TaskForm({ title, setTitle, description, setDescription,
 
         <div className="flex gap-3 mt-4">
           <button type="submit" className="flex-1 m-0!">
-            {editingId ? 'Actualizar Tarea' : 'Guardar Tarea'}
+            Guardar Tarea
           </button>
-
-          {editingId && (
-            <button
-              type="button"
-              onClick={onCancel}
-              className="px-6 bg-white/5 border border-white/10 hover:bg-white/10 shadow-none m-0!"
-            >
-              Cancelar
-            </button>
-          )}
         </div>
       </div>
     </form>

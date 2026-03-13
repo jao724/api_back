@@ -209,7 +209,7 @@ import TaskList from './TaskList';
 export default function Tasks() {
   const {
     tasks, title, setTitle, description, setDescription,
-    editingId, error, handleSubmit, deleteTask, handleEdit, resetForm
+    error, handleSubmit
   } = useTasks();
 
   return (
@@ -223,12 +223,21 @@ export default function Tasks() {
         </div>
 
 
-        {tasks.length > 0 && (
-          <div className="bg-white/5 border border-white/10 px-6 py-3 rounded-2xl backdrop-blur-md">
-            <span className="text-zinc-400 text-sm">Total: </span>
-            <span className="text-blue-400 font-bold ml-1">{tasks.length}</span>
-          </div>
-        )}
+        <div className="flex gap-4 items-center flex-wrap justify-center">
+          {tasks.length > 0 && (
+            <div className="bg-white/5 border border-white/10 px-6 py-3 rounded-2xl backdrop-blur-md">
+              <span className="text-zinc-400 text-sm">Total: </span>
+              <span className="text-blue-400 font-bold ml-1">{tasks.length}</span>
+            </div>
+          )}
+
+          <a 
+            href="/tasks/table"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl shadow-[0_0_15px_rgba(37,99,235,0.3)] transition-all font-bold"
+          >
+            Ver en Tabla
+          </a>
+        </div>
       </div>
 
       {error && (
@@ -245,15 +254,13 @@ export default function Tasks() {
               setTitle={setTitle}
               description={description}
               setDescription={setDescription}
-              editingId={editingId}
               onSubmit={handleSubmit}
-              onCancel={resetForm}
             />
           </div>
         </div>
 
         <div className="lg:col-span-7">
-          <TaskList tasks={tasks} onEdit={handleEdit} onDelete={deleteTask} />
+          <TaskList tasks={tasks} />
         </div>
       </div>
     </div>

@@ -1,15 +1,17 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-export default function TaskItem({ task, onEdit, onDelete }) {
+export default function TaskItem({ task }) {
+  const navigate = useNavigate();
   return (
     <div className="contenedor max-w-none! p-6! transform-none hover:translate-y-[-4px] hover:shadow-blue-500/10 mb-0">
       <div className="flex justify-between items-start mb-4">
-        <h3 className="text-xl font-bold bg-linear-to-r from-white to-zinc-400 bg-clip-text text-transparent truncate">
+        <h3 className="text-xl font-bold bg-linear-to-r from-white to-zinc-400 bg-clip-text text-transparent truncate mb-2">
           {task.title}
         </h3>
-        <div className="flex gap-2">
+        <div className="flex gap-2 shrink-0 ml-4">
           <button
-            onClick={() => onEdit(task)}
+            onClick={() => navigate(`/tasks/edit/${task._id}`)}
             className="p-2! mt-0! bg-white/5! hover:bg-yellow-500/20! text-yellow-500 shadow-none! border border-white/5"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -17,7 +19,7 @@ export default function TaskItem({ task, onEdit, onDelete }) {
             </svg>
           </button>
           <button
-            onClick={() => onDelete(task._id)}
+            onClick={() => navigate(`/tasks/delete/${task._id}`)}
             className="p-2! mt-0! bg-white/5! hover:bg-red-500/20! text-red-500 shadow-none! border border-white/5"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
