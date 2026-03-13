@@ -204,7 +204,6 @@
 
 import { useTasks } from './hooks/useTasks';
 import TaskForm from './TaskForm';
-import TaskList from './TaskList';
 
 export default function Tasks() {
   const {
@@ -246,21 +245,15 @@ export default function Tasks() {
         </div>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-        <div className="lg:col-span-5">
-          <div className="sticky top-24">
-            <TaskForm
-              title={title}
-              setTitle={setTitle}
-              description={description}
-              setDescription={setDescription}
-              onSubmit={handleSubmit}
-            />
-          </div>
-        </div>
-
-        <div className="lg:col-span-7">
-          <TaskList tasks={tasks} />
+      <div className="flex justify-center mt-12">
+        <div className="w-full max-w-2xl">
+          <TaskForm
+            title={title}
+            setTitle={setTitle}
+            description={description}
+            setDescription={setDescription}
+            onSubmit={handleSubmit}
+          />
         </div>
       </div>
     </div>
