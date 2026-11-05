@@ -2,13 +2,14 @@ import mongoose from "mongoose";
 
 
 const conectardb = async () => {
-  try {
-    await mongoose.connect(process.env.MONGO_URI)
-    console.log('conectado a la base de datos');
+  const mongoUri = process.env.MONGO_URI;
 
-  } catch (error) {
-    console.log('error  al conectar la base de datos', error);
+  if (!mongoUri) {
+    throw new Error('La variable de entorno MONGO_URI no está definida');
   }
+
+  await mongoose.connect(mongoUri);
+  console.log('conectado a la base de datos');
 }
 
 
