@@ -11,10 +11,10 @@ const iniciarServidor = async () => {
     await conectardb();
 
     app.listen(port, () => {
-      console.log(`escuchando en el puerto: ${port} ` + `http://localhost:3000`);
+      console.log(`🚀 Escuchando en el puerto: ${port} ` + `http://localhost:${port}`);
     });
   } catch (error) {
-    console.error('No se pudo iniciar el servidor por un error de conexión con MongoDB:', error);
+    console.error('❌ No se pudo iniciar el servidor por un error de conexión con MySQL:', error);
     process.exitCode = 1;
   }
 };

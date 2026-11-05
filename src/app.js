@@ -5,27 +5,27 @@ import morgan from "morgan";
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import helmet from 'helmet';
-import mongoSanitize from 'express-mongo-sanitize';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const app = express();
+const clientBuildPath = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  '../cliente/dist',
+);
 
-// Security Middlewares
+// Middlewares de seguridad
 app.use(helmet({
   contentSecurityPolicy: false,
-})); // Basic security headers with CSP disabled to avoid console errors
-app.use(mongoSanitize()); // Prevent NoSQL injection
+})); // Cabeceras básicas de seguridad con CSP deshabilitado para evitar errores en consola
 
-// Basic root route to avoid 404
-app.get('/', (req, res) => {
-  res.send('<h1>Backend corriendo exitosamente</h1><p>Por favor, usa el frontend en <a href="http://localhost:5173">http://localhost:5173</a></p>');
-});
 app.use(morgan('dev'))
 app.use(express.json())
 app.use(cookieParser())
 
-// CORS configuration reflecting security skill
+// Configuración CORS
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://127.0.0.1:5173', 'http://localhost:5175'], // Restrict to front-end dev urls
+  origin: ['http://localhost:5173', 'http://127.0.0.1:5173', 'http://localhost:5175'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
@@ -35,8 +35,15 @@ app.use(cors({
 app.use('/api', router)
 app.use('/api', task)
 
+app.use(express.static(clientBuildPath))
+app.get('*', (req, res, next) => {
+  if (req.path === '/api' || req.path.startsWith('/api/')) {
+    return next()
+  }
+
+  res.sendFile(path.join(clientBuildPath, 'index.html'), (error) => {
+    if (error) next(error)
+  })
+})
+
 export default app;
-
-
-
-

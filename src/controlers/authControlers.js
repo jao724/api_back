@@ -13,15 +13,13 @@ export const register = async(req,res) => {
 
     const passwordHash = await bcrypt.hash(password, 10);
     
-    const newuser = new User ({
+    const userSave = await User.create({
       usuario,
       email,
       password: passwordHash
     });
     
-    const userSave = await newuser.save();
-    
-    const token = await createAccesstoken({id: userSave._id});
+    const token = await createAccesstoken({id: userSave.id});
     
     // Configurar cookie con opciones de seguridad
     res.cookie('token', token, {
@@ -34,7 +32,7 @@ export const register = async(req,res) => {
     
   
   res.json({
-    id: userSave._id,
+    id: userSave.id,
     email: userSave.email,
     usuario: userSave.usuario,
   })
@@ -61,7 +59,7 @@ export const login = async(req,res) => {
         
     if(!isMatch) return res.status(401).json({message:'Invalid password'});
     
-    const token = await createAccesstoken({id: userFound._id});
+    const token = await createAccesstoken({id: userFound.id});
     
     // Configurar cookie con opciones de seguridad
     res.cookie('token', token, {
@@ -73,7 +71,7 @@ export const login = async(req,res) => {
     })
     
     res.json({
-      id: userFound._id,
+      id: userFound.id,
       usuario: userFound.usuario,
       email: userFound.email,
     })
@@ -101,7 +99,7 @@ export const profile = async(req,res) => {
     if(!userfound) return res.status(404).json({message:'User not found'});
     
     return res.json({
-      id: userfound._id,
+      id: userfound.id,
       usuario: userfound.usuario,
       email: userfound.email,
     })
